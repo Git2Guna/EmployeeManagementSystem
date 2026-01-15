@@ -1,18 +1,22 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
+const dotenv = require("dotenv");
+
+// Load .env variables
+dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: "10mb" })); // Allow large Base64 images
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-// MySQL connection
+// MySQL connection using env variables
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "",          // your MySQL username
-  password: "",  // your MySQL password
-  database: "employee_db"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect(err => {
@@ -62,5 +66,5 @@ app.delete(`${API}/:id`, (req, res) => {
 });
 
 // Start server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

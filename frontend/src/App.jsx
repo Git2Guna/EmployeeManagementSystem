@@ -4,7 +4,7 @@ import "./App.css";
 import axios from "axios";
 import unemploymentImg from "./assets/unemployment.png";
 
-const API_URL = "http://localhost:5000/employees";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const App = () => {
   const [employees, setEmployees] = useState([]);
